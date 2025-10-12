@@ -69,7 +69,8 @@ export class FormService {
   }
 
   static async updateForm(id: string, userId: string, data: any): Promise<FormSubmission> {
-    const form = await this.getFormById(id, userId);
+    // Verify user owns the form
+    await this.getFormById(id, userId);
     return FormSubmissionModel.update(id, data);
   }
 

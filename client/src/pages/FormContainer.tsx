@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm } from '../contexts/FormContext';
 import ProgressIndicator from '../components/form/ProgressIndicator';
 import ResponsiveFormLayout from '../components/layout/ResponsiveFormLayout';

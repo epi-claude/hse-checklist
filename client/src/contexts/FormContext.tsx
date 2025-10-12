@@ -29,7 +29,6 @@ export function FormProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
-  const [autoSaveTimer, setAutoSaveTimer] = useState<NodeJS.Timeout | null>(null);
 
   // Load form data
   useEffect(() => {
@@ -46,10 +45,10 @@ export function FormProvider({ children }: { children: ReactNode }) {
       const data = await formService.getFormById(formId!);
 
       // Parse JSON strings to objects
-      const parsedData = {
+      const parsedData: FormData = {
         ...data,
-        section_a_items: data.section_a_items ? JSON.parse(data.section_a_items as string) : {},
-        section_b_items: data.section_b_items ? JSON.parse(data.section_b_items as string) : {},
+        section_a_items: data.section_a_items ? JSON.parse(data.section_a_items as unknown as string) : {},
+        section_b_items: data.section_b_items ? JSON.parse(data.section_b_items as unknown as string) : {},
       };
 
       setFormData(parsedData);
@@ -68,10 +67,8 @@ export function FormProvider({ children }: { children: ReactNode }) {
       saveForm();
     }, 30000);
 
-    setAutoSaveTimer(timer);
-
     return () => {
-      if (timer) clearTimeout(timer);
+      clearTimeout(timer);
     };
   }, [formData, formId, isLoading]);
 
@@ -108,7 +105,7 @@ export function FormProvider({ children }: { children: ReactNode }) {
         ...formData,
         section_a_items: JSON.stringify(formData.section_a_items || {}),
         section_b_items: JSON.stringify(formData.section_b_items || {}),
-      };
+      } as unknown as Partial<FormData>;
 
       await formService.updateForm(formId, dataToSave);
       setLastSaved(new Date());

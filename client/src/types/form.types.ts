@@ -15,7 +15,17 @@ export interface FormData {
   section_a_notes?: string;
   section_b_items?: Record<string, ChecklistItem>;
   section_b_notes?: string;
+  signature_1_name?: string;
+  signature_1_title?: string;
+  signature_1_date?: string;
+  signature_2_name?: string;
+  signature_2_title?: string;
+  signature_2_date?: string;
+  signature_3_name?: string;
+  signature_3_title?: string;
+  signature_3_date?: string;
   status?: 'draft' | 'submitted';
+  submitted_at?: string;
 }
 
 export interface FormListItem {
