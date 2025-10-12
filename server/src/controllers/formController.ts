@@ -15,7 +15,7 @@ export class FormController {
         return res.status(400).json({ success: false, message: 'School building name is required' });
       }
 
-      const form = await FormService.createForm(req.user.userId, school_building);
+      const form = FormService.createForm(req.user.userId, school_building);
 
       res.status(201).json({
         id: form.id,
@@ -33,7 +33,7 @@ export class FormController {
         return res.status(401).json({ success: false, message: 'Not authenticated' });
       }
 
-      const forms = await FormService.getFormsByUser(req.user.userId);
+      const forms = FormService.getFormsByUser(req.user.userId);
 
       res.json({ forms });
     } catch (error) {
@@ -48,7 +48,7 @@ export class FormController {
       }
 
       const { id } = req.params;
-      const form = await FormService.getFormById(id, req.user.userId);
+      const form = FormService.getFormById(id, req.user.userId);
 
       res.json(form);
     } catch (error) {
@@ -63,7 +63,7 @@ export class FormController {
       }
 
       const { id } = req.params;
-      const form = await FormService.updateForm(id, req.user.userId, req.body);
+      const form = FormService.updateForm(id, req.user.userId, req.body);
 
       res.json({
         success: true,
@@ -87,7 +87,7 @@ export class FormController {
         return res.status(400).json({ success: false, message: '3 signatures are required' });
       }
 
-      const result = await FormService.submitForm(id, req.user.userId, signatures);
+      const result = FormService.submitForm(id, req.user.userId, signatures);
 
       res.json(result);
     } catch (error) {
@@ -102,7 +102,7 @@ export class FormController {
       }
 
       const { id } = req.params;
-      const form = await FormService.getFormById(id, req.user.userId);
+      const form = FormService.getFormById(id, req.user.userId);
 
       if (form.status !== 'submitted') {
         return res.status(400).json({ success: false, message: 'Form not submitted yet' });
@@ -121,7 +121,7 @@ export class FormController {
       }
 
       const { id } = req.params;
-      const form = await FormService.reopenForm(id, req.user.userId);
+      const form = FormService.reopenForm(id, req.user.userId);
 
       res.json({
         success: true,
@@ -141,7 +141,7 @@ export class FormController {
       const { id } = req.params;
 
       // Get the form data
-      const form = await FormService.getFormById(id, req.user.userId);
+      const form = FormService.getFormById(id, req.user.userId);
 
       if (form.status !== 'submitted') {
         return res.status(400).json({ success: false, message: 'Form must be submitted before generating PDF' });

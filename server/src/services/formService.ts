@@ -3,12 +3,12 @@ import { FormSubmission } from '../types/index.js';
 import { CalculationService } from './calculationService.js';
 
 export class FormService {
-  static async createForm(userId: string, school_building: string): Promise<FormSubmission> {
+  static createForm(userId: string, school_building: string): FormSubmission {
     return FormSubmissionModel.create(userId, school_building);
   }
 
-  static async getFormsByUser(userId: string): Promise<any[]> {
-    const forms = await FormSubmissionModel.findByUserId(userId);
+  static getFormsByUser(userId: string): any[] {
+    const forms = FormSubmissionModel.findByUserId(userId);
 
     return forms.map(form => {
       let filledFields = 0;
@@ -54,8 +54,8 @@ export class FormService {
     });
   }
 
-  static async getFormById(id: string, userId: string): Promise<FormSubmission> {
-    const form = await FormSubmissionModel.findById(id);
+  static getFormById(id: string, userId: string): FormSubmission {
+    const form = FormSubmissionModel.findById(id);
 
     if (!form) {
       throw new Error('Form not found');
@@ -68,14 +68,14 @@ export class FormService {
     return form;
   }
 
-  static async updateForm(id: string, userId: string, data: any): Promise<FormSubmission> {
+  static updateForm(id: string, userId: string, data: any): FormSubmission {
     // Verify user owns the form
-    await this.getFormById(id, userId);
+    this.getFormById(id, userId);
     return FormSubmissionModel.update(id, data);
   }
 
-  static async reopenForm(id: string, userId: string): Promise<FormSubmission> {
-    const form = await this.getFormById(id, userId);
+  static reopenForm(id: string, userId: string): FormSubmission {
+    const form = this.getFormById(id, userId);
 
     if (form.status !== 'submitted') {
       throw new Error('Form is not submitted');
@@ -85,8 +85,8 @@ export class FormService {
     return FormSubmissionModel.update(id, { status: 'draft' });
   }
 
-  static async submitForm(id: string, userId: string, signatures: any[]): Promise<any> {
-    const form = await this.getFormById(id, userId);
+  static submitForm(id: string, userId: string, signatures: any[]): any {
+    const form = this.getFormById(id, userId);
 
     if (form.status === 'submitted') {
       throw new Error('Form already submitted');
@@ -115,7 +115,7 @@ export class FormService {
       overall_compliant: validation.canSubmit,
     };
 
-    const updatedForm = await FormSubmissionModel.submit(id, signatures, scores);
+    const updatedForm = FormSubmissionModel.submit(id, signatures, scores);
 
     return {
       success: true,

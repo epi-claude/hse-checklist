@@ -3,7 +3,7 @@ import { FormSubmission } from '../types/index.js';
 import { randomUUID } from 'crypto';
 
 export class FormSubmissionModel {
-  static async create(userId: string, school_building: string): Promise<FormSubmission> {
+  static create(userId: string, school_building: string): FormSubmission {
     const id = randomUUID();
 
     const stmt = db.prepare(`
@@ -16,18 +16,18 @@ export class FormSubmissionModel {
     return this.findById(id) as FormSubmission;
   }
 
-  static async findById(id: string): Promise<FormSubmission | null> {
+  static findById(id: string): FormSubmission | null {
     const stmt = db.prepare('SELECT * FROM form_submissions WHERE id = ?');
     const form = stmt.get(id) as FormSubmission | undefined;
     return form || null;
   }
 
-  static async findByUserId(userId: string): Promise<FormSubmission[]> {
+  static findByUserId(userId: string): FormSubmission[] {
     const stmt = db.prepare('SELECT * FROM form_submissions WHERE created_by_user_id = ? ORDER BY updated_at DESC');
     return stmt.all(userId) as FormSubmission[];
   }
 
-  static async update(id: string, data: Partial<FormSubmission>): Promise<FormSubmission> {
+  static update(id: string, data: Partial<FormSubmission>): FormSubmission {
     const updates: string[] = [];
     const values: any[] = [];
 
@@ -54,7 +54,7 @@ export class FormSubmissionModel {
     return this.findById(id) as FormSubmission;
   }
 
-  static async submit(id: string, signatures: any, scores: any): Promise<FormSubmission> {
+  static submit(id: string, signatures: any, scores: any): FormSubmission {
     const stmt = db.prepare(`
       UPDATE form_submissions
       SET

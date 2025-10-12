@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 const dbPath = process.env.DATABASE_PATH || path.join(__dirname, '../../database/dev.db');
 
 // Initialize database
-export const db = new Database(dbPath);
+export const db: Database.Database = new Database(dbPath);
 
 // Enable foreign keys
 db.pragma('foreign_keys = ON');
