@@ -14,12 +14,21 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: config.corsOrigin === 'http://localhost:5173'
-    ? ['http://localhost:5173', /^http:\/\/192\.168\.\d{1,3}\.\d{1,3}:5173$/]
-    : config.corsOrigin,
-  exposedHeaders: ['Content-Disposition']
-}));
+// In production, allow same-origin requests (frontend and API on same domain)
+// In development, allow localhost:5173 and local network IPs
+const corsOptions = config.nodeEnv === 'production'
+  ? {
+      origin: true, // Allow all origins in production since same domain
+      credentials: true,
+      exposedHeaders: ['Content-Disposition']
+    }
+  : {
+      origin: ['http://localhost:5173', /^http:\/\/192\.168\.\d{1,3}\.\d{1,3}:5173$/],
+      credentials: true,
+      exposedHeaders: ['Content-Disposition']
+    };
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Initialize database
