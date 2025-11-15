@@ -1,5 +1,5 @@
-import { db } from '../database/sqlite.js';
-import { FormSubmission } from '../types/index.js';
+import { db } from '../database/sqlite';
+import { FormSubmission } from '../types/index';
 import { randomUUID } from 'crypto';
 
 export class FormSubmissionModel {

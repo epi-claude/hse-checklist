@@ -1,6 +1,6 @@
-import { FormSubmissionModel } from '../models/FormSubmission.js';
-import { FormSubmission } from '../types/index.js';
-import { CalculationService } from './calculationService.js';
+import { FormSubmissionModel } from '../models/FormSubmission';
+import { FormSubmission } from '../types/index';
+import { CalculationService } from './calculationService';
 
 export class FormService {
   static createForm(userId: string, school_building: string): FormSubmission {

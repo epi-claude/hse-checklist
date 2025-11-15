@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { FormService } from '../services/formService.js';
-import { PdfService } from '../services/pdfService.js';
+import { FormService } from '../services/formService';
+import { PdfService } from '../services/pdfService';
 
 export class FormController {
   static async create(req: Request, res: Response, next: NextFunction) {

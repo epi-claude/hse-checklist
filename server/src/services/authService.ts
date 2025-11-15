@@ -1,6 +1,6 @@
-import { UserModel } from '../models/User.js';
-import { generateToken } from '../utils/jwt.js';
-import { UserResponse } from '../types/index.js';
+import { UserModel } from '../models/User';
+import { generateToken } from '../utils/jwt';
+import { UserResponse } from '../types/index';
 
 export class AuthService {
   static async register(username: string, password: string, email?: string, full_name?: string) {

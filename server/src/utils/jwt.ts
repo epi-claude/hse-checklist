@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { JWTPayload } from '../types/index.js';
+import { JWTPayload } from '../types/index';
 
 const JWT_SECRET: string = process.env.JWT_SECRET || 'dev-secret-key-change-in-production';
 const JWT_EXPIRATION: string = process.env.JWT_EXPIRATION || '7d';

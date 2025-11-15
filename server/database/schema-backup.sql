@@ -1,19 +1,4 @@
-import Database from 'better-sqlite3';
-import path from 'path';
-
-const dbPath = process.env.DATABASE_PATH || path.join(__dirname, '../../database/dev.db');
-
-// Initialize database
-export const db: Database.Database = new Database(dbPath);
-
-// Enable foreign keys
-db.pragma('foreign_keys = ON');
-
-// Initialize database schema
-export function initializeDatabase() {
-  const schema = `
-    -- Users table
-    CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
       id TEXT PRIMARY KEY,
       username TEXT UNIQUE NOT NULL,
       password_hash TEXT NOT NULL,
@@ -23,9 +8,7 @@ export function initializeDatabase() {
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
-
-    -- Form submissions table
-    CREATE TABLE IF NOT EXISTS form_submissions (
+CREATE TABLE form_submissions (
       id TEXT PRIMARY KEY,
       created_by_user_id TEXT NOT NULL,
 
@@ -74,16 +57,7 @@ export function initializeDatabase() {
 
       FOREIGN KEY (created_by_user_id) REFERENCES users(id)
     );
-
-    -- Indexes for performance
-    CREATE INDEX IF NOT EXISTS idx_submissions_user ON form_submissions(created_by_user_id);
-    CREATE INDEX IF NOT EXISTS idx_submissions_status ON form_submissions(status);
-    CREATE INDEX IF NOT EXISTS idx_submissions_school ON form_submissions(school_building);
-    CREATE INDEX IF NOT EXISTS idx_submissions_created ON form_submissions(created_at);
-  `;
-
-  db.exec(schema);
-  console.log('✅ Database schema initialized');
-}
-
-export default db;
+CREATE INDEX idx_submissions_user ON form_submissions(created_by_user_id);
+CREATE INDEX idx_submissions_status ON form_submissions(status);
+CREATE INDEX idx_submissions_school ON form_submissions(school_building);
+CREATE INDEX idx_submissions_created ON form_submissions(created_at);

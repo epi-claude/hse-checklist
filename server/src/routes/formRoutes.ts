@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { FormController } from '../controllers/formController.js';
-import { authenticate } from '../middleware/authMiddleware.js';
+import { FormController } from '../controllers/formController';
+import { authenticate } from '../middleware/authMiddleware';
 
 const router = Router();
 

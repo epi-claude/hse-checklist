@@ -1,0 +1,43 @@
+# Dependencies
+node_modules
+client/node_modules
+server/node_modules
+
+# Build output
+client/dist
+server/dist
+
+# Git
+.git
+.gitignore
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Documentation
+*.md
+README.md
+RAILWAY_DEPLOYMENT_COMPLETE_GUIDE.md
+
+# Cache and logs
+.cache
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Database (don't copy local DB)
+server/database
+*.db
+
+# Generated PDFs
+server/generated-pdfs

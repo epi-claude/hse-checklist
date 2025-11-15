@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../utils/jwt.js';
-import { JWTPayload } from '../types/index.js';
+import { verifyToken } from '../utils/jwt';
+import { JWTPayload } from '../types/index';
 
 // Extend Express Request type to include user
 declare global {

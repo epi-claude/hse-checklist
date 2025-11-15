@@ -1,11 +1,7 @@
 import { PDFDocument } from 'pdf-lib';
-import { FormSubmission } from '../types/index.js';
+import { FormSubmission } from '../types/index';
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export class PdfService {
   private static TEMPLATE_PATH = path.join(__dirname, '../../../docs/Health_Safety_Evaluation_SchoolBuildings_Checklist.pdf');

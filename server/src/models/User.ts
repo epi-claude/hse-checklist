@@ -1,5 +1,5 @@
-import { db } from '../database/sqlite.js';
-import { User, UserResponse } from '../types/index.js';
+import { db } from '../database/sqlite';
+import { User, UserResponse } from '../types/index';
 import bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
 

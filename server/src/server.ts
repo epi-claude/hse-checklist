@@ -1,15 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import { config } from './config.js';
-import { initializeDatabase } from './database/sqlite.js';
-import authRoutes from './routes/authRoutes.js';
-import formRoutes from './routes/formRoutes.js';
-import { errorHandler } from './middleware/errorHandler.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { config } from './config';
+import { initializeDatabase } from './database/sqlite';
+import authRoutes from './routes/authRoutes';
+import formRoutes from './routes/formRoutes';
+import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
 
