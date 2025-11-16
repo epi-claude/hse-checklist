@@ -1,7 +1,17 @@
 import Database from 'better-sqlite3';
 import path from 'path';
+import fs from 'fs';
 
 const dbPath = process.env.DATABASE_PATH || path.join(__dirname, '../../database/dev.db');
+
+// Ensure the database directory exists
+const dbDir = path.dirname(dbPath);
+if (!fs.existsSync(dbDir)) {
+  console.log(`📁 Creating database directory: ${dbDir}`);
+  fs.mkdirSync(dbDir, { recursive: true });
+}
+
+console.log(`📊 Opening database at: ${dbPath}`);
 
 // Initialize database
 export const db: Database.Database = new Database(dbPath);
