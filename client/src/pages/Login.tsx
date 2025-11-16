@@ -46,7 +46,7 @@ export default function Login() {
             <ShieldCheckIcon className="w-10 h-10 text-white" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900">
-            Health & Safety Checklist
+            Health & Safety Checklist v1.0
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             New Jersey 2025-2026
