@@ -75,4 +75,9 @@ export const formService = {
     link.remove();
     window.URL.revokeObjectURL(url);
   },
+
+  async loadSampleData() {
+    const response = await api.post('/forms/load-sample-data');
+    return response.data;
+  },
 };

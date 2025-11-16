@@ -4,6 +4,7 @@ export interface User {
   password_hash: string;
   email?: string;
   full_name?: string;
+  organization?: string;
   role: string;
   created_at: string;
   updated_at: string;
@@ -14,6 +15,7 @@ export interface UserResponse {
   username: string;
   email?: string;
   full_name?: string;
+  organization?: string;
   role: string;
 }
 

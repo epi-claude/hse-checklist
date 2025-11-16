@@ -29,6 +29,7 @@ export function initializeDatabase() {
       password_hash TEXT NOT NULL,
       email TEXT,
       full_name TEXT,
+      organization TEXT,
       role TEXT DEFAULT 'user',
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -94,6 +95,25 @@ export function initializeDatabase() {
 
   db.exec(schema);
   console.log('✅ Database schema initialized');
+
+  // Run migrations
+  runMigrations();
+}
+
+function runMigrations() {
+  // Migration: Add organization column if it doesn't exist
+  try {
+    const columns = db.pragma('table_info(users)') as Array<{ name: string }>;
+    const hasOrganization = columns.some((col) => col.name === 'organization');
+
+    if (!hasOrganization) {
+      console.log('🔄 Running migration: Adding organization column to users table');
+      db.exec('ALTER TABLE users ADD COLUMN organization TEXT');
+      console.log('✅ Migration completed: organization column added');
+    }
+  } catch (error) {
+    console.error('Migration error:', error);
+  }
 }
 
 export default db;

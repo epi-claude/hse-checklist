@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import FormContainer from './pages/FormContainer'
 import ViewSubmission from './pages/ViewSubmission'
+import Settings from './pages/Settings'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/form/:formId" element={<FormContainer />} />
           <Route path="/view/:formId" element={<ViewSubmission />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </AuthProvider>

@@ -10,6 +10,7 @@ import {
   CheckCircleIcon,
   ClockIcon,
   ArrowRightOnRectangleIcon,
+  Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
 
 export default function Dashboard() {
@@ -64,6 +65,18 @@ export default function Dashboard() {
     }
   };
 
+  const handleLoadSampleData = async () => {
+    try {
+      setLoading(true);
+      await formService.loadSampleData();
+      await loadForms();
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Failed to load sample data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -89,6 +102,13 @@ export default function Dashboard() {
               >
                 <PlusIcon className="w-5 h-5" />
                 Add New
+              </button>
+              <button
+                onClick={() => navigate('/settings')}
+                className="inline-flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Cog6ToothIcon className="w-5 h-5" />
+                <span className="hidden sm:inline">Settings</span>
               </button>
               <button
                 onClick={logout}
@@ -121,13 +141,21 @@ export default function Dashboard() {
               <ClipboardDocumentListIcon className="mx-auto h-12 w-12 text-gray-400" />
               <h3 className="mt-4 text-lg font-medium text-gray-900">No forms yet</h3>
               <p className="mt-2 text-sm text-gray-500">Get started by creating your first form.</p>
-              <button
-                onClick={() => setShowCreateModal(true)}
-                className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors shadow-sm font-medium"
-              >
-                <PlusIcon className="w-5 h-5" />
-                Create First Form
-              </button>
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  onClick={() => setShowCreateModal(true)}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors shadow-sm font-medium"
+                >
+                  <PlusIcon className="w-5 h-5" />
+                  Create First Form
+                </button>
+                <button
+                  onClick={handleLoadSampleData}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                >
+                  Load Sample Data
+                </button>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -6,10 +6,11 @@ import { User } from '../types/auth.types';
 interface AuthContextType {
   user: User | null;
   login: (username: string, password: string) => Promise<void>;
-  register: (username: string, password: string, email?: string, full_name?: string) => Promise<void>;
+  register: (username: string, password: string, email?: string, full_name?: string, organization?: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
   isLoading: boolean;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -42,13 +43,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const register = async (username: string, password: string, email?: string, full_name?: string) => {
-    const response = await authService.register(username, password, email, full_name);
+  const register = async (username: string, password: string, email?: string, full_name?: string, organization?: string) => {
+    const response = await authService.register(username, password, email, full_name, organization);
     if (response.success) {
       // Auto-login after registration
       await login(username, password);
     } else {
       throw new Error(response.message || 'Registration failed');
+    }
+  };
+
+  const refreshUser = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const response = await authService.getCurrentUser();
+        if (response.success && response.user) {
+          localStorage.setItem('user', JSON.stringify(response.user));
+          setUser(response.user);
+        }
+      } catch (error) {
+        console.error('Failed to refresh user:', error);
+      }
     }
   };
 
@@ -67,6 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         logout,
         isAuthenticated: !!user,
         isLoading,
+        refreshUser,
       }}
     >
       {children}

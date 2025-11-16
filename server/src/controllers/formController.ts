@@ -165,4 +165,22 @@ export class FormController {
       next(error);
     }
   }
+
+  static async loadSampleData(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+
+      const sampleForms = FormService.createSampleData(req.user.userId);
+
+      res.json({
+        success: true,
+        message: `Created ${sampleForms.length} sample forms`,
+        forms: sampleForms,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

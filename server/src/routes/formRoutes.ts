@@ -7,6 +7,7 @@ const router = Router();
 // All form routes require authentication
 router.use(authenticate);
 
+router.post('/load-sample-data', FormController.loadSampleData);
 router.post('/', FormController.create);
 router.get('/', FormController.list);
 router.get('/:id', FormController.getById);

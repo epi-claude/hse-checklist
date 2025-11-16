@@ -58,6 +58,16 @@ export class CalculationService {
     };
   }
 
+  static calculateScores(sectionAItems: Record<string, ChecklistItem>, sectionBItems: Record<string, ChecklistItem>) {
+    const sectionA = this.validateSectionA(sectionAItems);
+    const sectionB = this.validateSectionB(sectionBItems);
+
+    return {
+      sectionA,
+      sectionB,
+    };
+  }
+
   static canSubmit(sectionAItems: Record<string, ChecklistItem>, sectionBItems: Record<string, ChecklistItem>, signatures: any[]) {
     const sectionA = this.validateSectionA(sectionAItems);
     const sectionB = this.validateSectionB(sectionBItems);

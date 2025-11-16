@@ -12,8 +12,10 @@ export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
+  const [organization, setOrganization] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -22,13 +24,32 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Registration-specific validation
+    if (!isLogin) {
+      if (username.length < 3) {
+        setError('Username must be at least 3 characters');
+        return;
+      }
+
+      if (password.length < 8) {
+        setError('Password must be at least 8 characters');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        setError('Passwords do not match');
+        return;
+      }
+    }
+
     setLoading(true);
 
     try {
       if (isLogin) {
         await login(username, password);
       } else {
-        await register(username, password, email, fullName);
+        await register(username, password, email, fullName, organization);
       }
     } catch (err: any) {
       setError(err.response?.data?.message || err.message || 'An error occurred');
@@ -96,7 +117,7 @@ export default function Login() {
             {/* Password Input */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                Password {!isLogin && <span className="text-red-500">*</span>}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -113,14 +134,37 @@ export default function Login() {
                   placeholder="Enter your password"
                 />
               </div>
+              {!isLogin && (
+                <p className="mt-1 text-xs text-gray-500">Must be at least 8 characters</p>
+              )}
             </div>
 
             {/* Register-only fields */}
             {!isLogin && (
               <>
                 <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                    Confirm Password <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <LockClosedIcon className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type="password"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors sm:text-sm"
+                      placeholder="Confirm your password"
+                    />
+                  </div>
+                </div>
+                <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email <span className="text-gray-400 font-normal">(optional)</span>
+                    Email
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -139,7 +183,7 @@ export default function Login() {
                 </div>
                 <div>
                   <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name <span className="text-gray-400 font-normal">(optional)</span>
+                    Full Name
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -153,6 +197,25 @@ export default function Login() {
                       onChange={(e) => setFullName(e.target.value)}
                       className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors sm:text-sm"
                       placeholder="John Smith"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
+                    Organization / School District
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <UserIcon className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      id="organization"
+                      name="organization"
+                      type="text"
+                      value={organization}
+                      onChange={(e) => setOrganization(e.target.value)}
+                      className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors sm:text-sm"
+                      placeholder="e.g., Newark School District"
                     />
                   </div>
                 </div>
