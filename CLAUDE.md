@@ -51,6 +51,22 @@ npm run dev
 - `server/src/routes/` - API endpoints
 - `client/src/contexts/AuthContext.tsx` - Auth state
 
+## Railway Deployment
+
+**⚠️ CRITICAL: Read `RAILWAY_DEPLOYMENT_SOP.md` BEFORE deploying**
+
+This is a **SINGLE SERVICE** deployment (not two services):
+- One Railway service builds and runs both client and server
+- Express serves API routes AND static React files
+- Never create separate client/server services
+
+Key deployment files:
+- `RAILWAY_DEPLOYMENT_SOP.md` - **READ THIS FIRST** - Checklist and common errors
+- `RAILWAY_DEPLOYMENT_COMPLETE_GUIDE.md` - Complete deployment guide
+- `RAILWAY_DEPLOYMENT_NEXT_STEPS.md` - Post-deployment steps
+- `Dockerfile` - Builds both workspaces
+- `railway.json` - Build and start commands
+
 ## Development Guidelines
 
 1. **Follow the PRD** - All features are specified in PRD.md
